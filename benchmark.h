@@ -3,10 +3,11 @@
 
 #include <mpi.h>
 #include <string>
+#include <vector>
 
 class Benchmark {
 public:
-    Benchmark(int max_exponent, int warmup_rounds, int repetitions, std::string benchmark_name);
+    Benchmark(int max_exponent, int warmup_rounds, int repetitions, std::string benchmark_name, int root, std::vector<int> recv_ranks);
     void run();
 
 private:
@@ -14,6 +15,8 @@ private:
     int warmup_rounds;      // Warmup 轮数
     int repetitions;        // 测试轮数
     std::string benchmark_name; // Benchmark 名称
+    int root;
+    std::vector<int> recv_ranks;
 
     void calculate_repetitions(int msg_size);
 
@@ -21,6 +24,7 @@ private:
 
     void PingPong(int msg_size, int rank, int size);
     void PingPing(int msg_size, int rank, int size);
+    void ScatterGather(int msg_size, int rank, int size);
 };
 
 #endif // BENCHMARK_H
